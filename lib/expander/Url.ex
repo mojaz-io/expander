@@ -25,7 +25,7 @@ defmodule Expander.Url do
 
     You can also directly pass arguments to the `new/1` function.
 
-    email = new(short_url: "http://stpz.co/haddafios", long_url: "https://itunes.apple.com/us/app/haddaf-hdaf/id872585884")
+    url = new(short_url: "http://stpz.co/haddafios", long_url: "https://itunes.apple.com/us/app/haddaf-hdaf/id872585884")
    """
 
   defstruct short_url: nil, long_url: nil

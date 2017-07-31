@@ -1,4 +1,4 @@
-defmodule Expander.Adapters.Local.Storage.Memory do
+defmodule Expander.Cache.Adapters.Local.Storage.Memory do
 
   @moduledoc ~S"""
   In-memory storage driver used by the

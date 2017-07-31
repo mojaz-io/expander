@@ -1,9 +1,9 @@
-defmodule Expander.Adapters.Local.Storage.MemoryTest do
+defmodule Expander.Cache.Adapters.Local.Storage.MemoryTest do
   use ExUnit.Case
 
-  alias Expander.Adapters.Local.Storage.Memory
+  alias Expander.Cache.Adapters.Local.Storage.Memory
 
-  doctest Expander.Adapters.Local.Storage.Memory, import: true
+  doctest Expander.Cache.Adapters.Local.Storage.Memory, import: true
 
   setup do
     Memory.delete_all()

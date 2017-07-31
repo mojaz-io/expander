@@ -3,16 +3,8 @@ defmodule Expander do
   Documentation for Expander.
   """
 
-  @doc """
-  Hello world.
+  @version "0.0.1"
 
-  ## Examples
-
-      iex> Expander.hello
-      :world
-
-  """
-  def hello do
-    :world
-  end
+  @doc false
+  def version, do: @version
 end
