@@ -16,35 +16,31 @@ defmodule Expander.Cache.Adapter do
         raise_on_missing_config(missing_keys, config)
       end
 
-      # Wrapper method around get to check if the item in cache.
-      def in_cache(url, config) do
-        case get(url, config) do
-          {:ok, {_expanded, _config}} -> {:ok, true}
-          _ -> {:ok, false}
-        end
-      end
-
       defp raise_on_missing_config([], _config), do: :ok
       defp raise_on_missing_config(key, config) do
         raise ArgumentError, """
         expected #{inspect key} to be set, got: #{inspect config}
         """
       end
+
+      # Defoverridable makes the given functions in the current module overridable
+      # Without defoverridable, new definitions of start_link/1 will not be picked up
+      #defoverridable [start_link: 1]
     end
   end
 
   @type t :: module
-
-  @type url :: Expander.Url.t
-
   @typep config :: Keyword.t
+
+  @callback setup(config) :: {:ok, state :: term} | :ignore | {:stop, reason :: term}
 
   @doc """
   Get URL from cache.
   """
-  @callback get(url, config) :: {:ok, term} | {:error, term}
+  @callback get(Expander.Cache.Store.t, Expander.key) :: {:ok, Expander.Cache.Store.t, {:ok, Expander.value} | :error} | Expander.exception
 
-  @callback set(url, config) :: {:ok, term} | {:error, term}
-
-  # @callback set(url, config)
+  @doc """
+  Set URL in cache.
+  """
+  @callback set(Expander.Cache.Store.t, Expander.key, Expander.value) :: {:ok, Expander.Cache.Store.t} | Expander.exception
 end

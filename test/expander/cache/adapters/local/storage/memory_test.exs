@@ -6,6 +6,7 @@ defmodule Expander.Cache.Adapters.Local.Storage.MemoryTest do
   doctest Expander.Cache.Adapters.Local.Storage.Memory, import: true
 
   setup do
+    Memory.start_link()
     Memory.delete_all()
     :ok
   end

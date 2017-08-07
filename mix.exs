@@ -35,11 +35,20 @@ defmodule Expander.Mixfile do
   #   {:my_dep, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
   #
   # Type "mix help deps" for more examples and options
-  defp deps do
-    [{:httpotion, "~> 3.0.2"},
-     {:ex_doc, "~> 0.15", only: :docs},
-     {:inch_ex, ">= 0.0.0", only: :docs}]
-  end
+  defp deps, do: tools() ++ backends()
+
+  defp tools, do: [
+    {:httpotion, "~> 3.0.2"},
+    {:poolboy, "~> 1.5"},
+    {:poison, "~> 3.1"},
+    {:ex_doc, "~> 0.15", only: :docs},
+    {:excoveralls, "~> 0.6",  only: :test},
+    {:inch_ex,     "~> 0.5",  only: [:dev, :test]},
+  ]
+
+  defp backends, do: [
+    {:redix, ">= 0.0.0", only: [:dev, :test]}
+  ]
 
 
   defp aliases do

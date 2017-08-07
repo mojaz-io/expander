@@ -10,7 +10,8 @@ defmodule Expander.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
-      worker(Expander.Cache.Adapters.Local.Storage.Memory, []),
+      #worker(Expander.Cache.Adapters.Local.Storage.Memory, []),
+      supervisor(Expander.Cache.Supervisor, [])
       # worker(Expander.Fetcher, []),
     ]
 

@@ -2,6 +2,7 @@ defmodule Expander.ExpandTest do
   use ExUnit.Case, async: true
 
   alias Expander.ExpandError
+  alias Expander.Cache.Store
 
   Application.put_env(
     :expander,
@@ -13,9 +14,9 @@ defmodule Expander.ExpandTest do
   defmodule FakeAdapter do
     use Expander.Cache.Adapter
 
-    def get(url, config), do: {:ok, {url, config}}
-    def set(url, config), do: {:ok, {url, config}}
-
+    def setup(_), do: {:ok, %{}}
+    def get(store = %Store{}, _key), do: {:ok, store, {:ok, "value"}}
+    def set(store = %Store{}, _key, _value), do: {:ok, store}
   end
 
   defmodule FakeExpander do
@@ -38,14 +39,6 @@ defmodule Expander.ExpandTest do
     end
   end
 
-  test "dynamic adapter", %{valid_url: url} do
-    defmodule OtherAdapterCache do
-      use Expander.Expand, otp_app: :expander, adapter: NotExistAdapter
-    end
-
-    assert {:ok, _} = OtherAdapterCache.expand(url, adapter: FakeAdapter)
-  end
-
   test "should raise if expand!/2 is called with invalid short_url", %{valid_url: valid_url} do
     assert_raise ExpandError, "expand error: expected \"short_url\" to be set", fn ->
       Map.put(valid_url, :short_url, nil) |> FakeExpander.expand!()
@@ -64,34 +57,9 @@ defmodule Expander.ExpandTest do
       use Expander.Expand, otp_app: :expander, adapter: FakeAdapter
     end
 
-    assert EnvCacheExpander.expand(url) ==
-      {:ok, {url, [
-        username: "userenv",
-        password: "passwordenv"
-      ]}}
+    assert EnvCacheExpander.config() == [
+      username: "userenv",
+      password: "passwordenv"
+    ]
   end
-
-  test "merge config passed to expand/2 into Expander's config", %{valid_url: url} do
-    assert FakeExpander.expand(url, tls: 200) ==
-      {:ok, {url, [api_key: "api-key", tls: 200]}}
-  end
-
-  test "validate config passed to expand/2", %{valid_url: url} do
-    defmodule NoConfigAdapter do
-      use Expander.Cache.Adapter, required_config: [:api_key]
-      def get(_url, _config), do: {:ok, nil}
-      def set(_url, _config), do: {:ok, nil}
-    end
-
-    defmodule NoConfigMailer do
-      use Expander.Expand, otp_app: :expander, adapter: NoConfigAdapter
-    end
-
-    assert_raise ArgumentError, """
-    expected [:api_key] to be set, got: [domain: "jarvis.com"]
-    """, fn ->
-      NoConfigMailer.expand(url, domain: "jarvis.com")
-    end
-  end
-
 end

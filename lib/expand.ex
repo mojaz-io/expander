@@ -64,15 +64,30 @@ defmodule Expander.Expand do
       @adapter adapter
       @config config
 
-      def expand(url, config \\ [])
-      def expand(url, config) do
-        config = Keyword.merge(@config, config)
-        Expander.Expand.expand(Keyword.get(config, :adapter, @adapter), url, config)
+      #
+      # Validate the configuration before trying to start the server.
+      # @TODO: If i moved this check inside the start_link function the raise will be not thrown
+      #        and the server will fail to start silently. I need to figure out a way to make this
+      #        cleaner.
+      #
+      :ok = @adapter.validate_config(@config)
+
+      def expand(url)
+      def expand(url) do
+        #
+        # Start the adapter and add it the cache supervisor tree.
+        #
+        case Expander.Cache.Supervisor.find_adapter(__MODULE__) do
+          nil -> Expander.Cache.Supervisor.add_adapter(@adapter, @config, [name: __MODULE__])
+          _ -> IO.puts "Adapter is already running"
+        end
+
+        Expander.Expand.expand(url, __MODULE__)
       end
 
-      def expand!(url, config \\ [])
-      def expand!(url, config) do
-        case expand(url, config) do
+      def expand!(url)
+      def expand!(url) do
+        case expand(url) do
           {:ok, result} -> result
           {:error, reason} -> raise ExpandError, reason: reason
         end
@@ -82,27 +97,50 @@ defmodule Expander.Expand do
         @adapter
       end
 
+      def config do
+        @config
+      end
+
+      ##
+      def get(url)  do
+        GenServer.call(__MODULE__, {:get, url})
+      end
+
+      ##
+      def set(url)  do
+        GenServer.call(__MODULE__, {:set, url})
+      end
+
+      ##
+      def in_cache(url) do
+        GenServer.call(__MODULE__, {:in_cache, url})
+      end
     end
   end
 
-  def expand(_adapter, %Expander.Url{short_url: nil}, _config) do
+
+
+
+  def expand(%Expander.Url{short_url: nil}, _server) do
     {:error, :short_url_not_set}
   end
 
-  def expand(adapter, %Expander.Url{} = url, config) do
-    config = Expander.Expand.parse_runtime_config(config)
-    :ok = adapter.validate_config(config)
+  def expand(%Expander.Url{} = url, server) do
+    #config = Expander.Expand.parse_runtime_config(config)
+    #:ok = adapter.validate_config(config)
 
     #
-    with {:ok, false} <- adapter.in_cache(url, config),
+    with {:ok, false} <- server.in_cache(url),
          {:ok, result} <- expand_remote(url),
-         {:ok, cache_result} <- adapter.set(result, config)
+         :ok <- server.set(result)
     do
-          {:ok, cache_result}
+          {:ok, result}
     else
       # URL already in cache.
-      {:ok, true} -> adapter.get(url, config)
-      _ -> :error
+      {:ok, true, cached_result} -> {:ok, cached_result}
+      something_went_wrong ->
+        IO.inspect something_went_wrong
+        :error
     end
   end
 
@@ -132,8 +170,12 @@ defmodule Expander.Expand do
                            "config #{inspect otp_app}, #{inspect expander}"
     end
 
+
+    config = parse_runtime_config(config)
+
     {otp_app, adapter, config}
   end
+
 
   @doc """
   Parses the OTP configuration at run time.

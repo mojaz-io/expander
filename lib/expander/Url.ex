@@ -121,6 +121,10 @@ defmodule Expander.Url do
     """
   end
 
+  def cache_key(url) do
+    url.short_url
+  end
+
   defp raise_invalid_url(url) do
     raise ArgumentError, message: """
     expects the url to be a valid url.
