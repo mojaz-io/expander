@@ -39,7 +39,7 @@ defmodule Expander.Mixfile do
 
   defp tools, do: [
     {:httpotion, "~> 3.0.2"},
-    {:poolboy, "~> 1.5"},
+    #{:poolboy, "~> 1.5"},
     {:poison, "~> 3.1"},
     {:ex_doc, "~> 0.15", only: :docs},
     {:excoveralls, "~> 0.6",  only: :test},
