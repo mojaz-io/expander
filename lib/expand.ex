@@ -72,7 +72,6 @@ defmodule Expander.Expand do
       #
       :ok = @adapter.validate_config(@config)
 
-      def expand(url)
       def expand(url) do
         #
         # Start the adapter and add it the cache supervisor tree.
@@ -85,7 +84,6 @@ defmodule Expander.Expand do
         Expander.Expand.expand(url, __MODULE__)
       end
 
-      def expand!(url)
       def expand!(url) do
         case expand(url) do
           {:ok, result} -> result
