@@ -2,7 +2,7 @@ defmodule Expander.Cache.Adapter.LocalTest do
   use ExUnit.Case, async: true
 
   alias Expander.Cache.Adapters.Local.Storage.Memory
-
+  alias Expander.Url
 
   defmodule LocalCache do
     use Expander.Expand, otp_app: :expander, adapter: Expander.Cache.Adapter.Local
@@ -31,4 +31,13 @@ defmodule Expander.Cache.Adapter.LocalTest do
     assert Memory.get(conn, "key1") == {:ok, "value1"}
   end
 
+  test "expand interface", %{conn: conn} do
+    #
+    # Manually create url and set in in Memory Directly, then expand should fetch this URL from redis and return it
+    #
+    url = Url.new(short_url: "http://stpz.co/haddafios", long_url: "https://itunes.apple.com/us/app/haddaf-hdaf/id872585884")
+    Memory.set(conn, Url.cache_key(url), Poison.encode!(url))
+
+    assert {:ok, url} == LocalCache.expand(url)
+  end
 end

@@ -1,8 +1,28 @@
 defmodule Expander.Cache.Adapter.Local do
+
+  @moduledoc ~S"""
+  An adapter that uses Memory as a caching engine.
+
+  ## Example
+
+      # config/config.exs
+      config :sample, Sample.Expander,
+        adapter: Expander.Cache.Adapter.Local
+
+      # lib/sample/expander.ex
+      defmodule Sample.Expander do
+        use Expander.Expand, otp_app: :expander, adapter: Expander.Cache.Adapter.Redix
+      end
+  """
+
+
   use Expander.Cache.Adapter
   alias Expander.Cache.Store
   alias Expander.Cache.Adapters.Local.Storage.Memory
 
+  @doc """
+    Connects to Memory Map to store data using provided `config`.
+  """
   def setup(_) do
     Expander.Cache.Adapters.Local.Storage.Memory.start_link()
   end
