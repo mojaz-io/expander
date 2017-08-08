@@ -42,8 +42,8 @@ defmodule Expander.Mixfile do
     #{:poolboy, "~> 1.5"},
     {:poison, "~> 3.1"},
     {:ex_doc, "~> 0.15", only: :docs},
-    {:excoveralls, "~> 0.6",  only: :test},
-    {:inch_ex,     "~> 0.5",  only: [:dev, :test]},
+    {:excoveralls, "~> 0.6",  only: [:docs]},
+    {:inch_ex,     "~> 0.5",  only: [:docs]},
   ]
 
   defp backends, do: [
