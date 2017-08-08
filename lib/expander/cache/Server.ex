@@ -43,7 +43,7 @@ defmodule Expander.Cache.Server do
   end
 
   ##
-  ## @TODO
+  ## @TODO: Refactor.
   ##
   defp deserialize_error(opts, _store) do
     case Keyword.fetch(opts, :key) do

@@ -72,15 +72,20 @@ defmodule Expander.Expand do
       #
       :ok = @adapter.validate_config(@config)
 
-      def expand(url) do
-        #
-        # Start the adapter and add it the cache supervisor tree.
-        #
+
+      #
+      # Start the adapter and add it the cache supervisor tree.
+      #
+      def start_adapter do
         case Expander.Cache.Supervisor.find_adapter(__MODULE__) do
           nil -> Expander.Cache.Supervisor.add_adapter(@adapter, @config, [name: __MODULE__])
           _ -> IO.puts "Adapter is already running"
         end
+      end
 
+
+      def expand(url) do
+        start_adapter()
         Expander.Expand.expand(url, __MODULE__)
       end
 
