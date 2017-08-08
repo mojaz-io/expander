@@ -21,5 +21,10 @@ Expander.Cache.Supervisor.find_adapter(head)
 
 
 
+defmodule LocalCache do
+  use Expander.Expand, otp_app: :expander, adapter: Expander.Cache.Adapter.Local
+end
+
+
 
 :observer.start

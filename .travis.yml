@@ -12,6 +12,7 @@ after_script:
   - MIX_ENV=docs mix inch.report
 services:
   - redis-server
+  - memcached
 notifications:
   recipients:
     - moski.doski@gmail.com
