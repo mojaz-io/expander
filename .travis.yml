@@ -10,6 +10,8 @@ script: mix test.ci
 after_script:
   - mix deps.get --only docs
   - MIX_ENV=docs mix inch.report
+services:
+  - redis-server
 notifications:
   recipients:
     - moski.doski@gmail.com
