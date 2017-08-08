@@ -24,20 +24,20 @@ defmodule Expander.Cache.Adapters.Local.Storage.Memory do
     GenServer.stop(__MODULE__)
   end
 
-  @doc ~S"""
-  Push a new url into the list.
 
-  The key used to fetch the url is the short_url
+  @doc ~S"""
+  List all stored urls.
 
   ## Examples
       iex> url = Expander.Url.new() |> Expander.Url.short_url("http://stpz.co/haddafios")
       %Expander.Url{short_url: "http://stpz.co/haddafios"}
       iex> Memory.set(url)
+      %Expander.Url{short_url: "http://stpz.co/haddafios"}
       iex> Memory.all()
       %{"http://stpz.co/haddafios" => %Expander.Url{long_url: nil, short_url: "http://stpz.co/haddafios"}}
   """
-  def set(url) do
-    GenServer.call(__MODULE__, {:set, url})
+  def all(state) do
+    GenServer.call(state, :all)
   end
 
   @doc ~S"""
@@ -52,68 +52,100 @@ defmodule Expander.Cache.Adapters.Local.Storage.Memory do
       iex> Memory.get("http://stpz.co/haddafios")
       %Expander.Url{short_url: "http://stpz.co/haddafios"}
   """
-  def get(id) do
-    GenServer.call(__MODULE__, {:get, id})
+  def get(state,key) do
+    GenServer.call(state, {:get, key})
   end
 
-  @doc ~S"""
-  List all stored urls.
 
-  ## Examples
-      iex> url = Expander.Url.new() |> Expander.Url.short_url("http://stpz.co/haddafios")
-      %Expander.Url{short_url: "http://stpz.co/haddafios"}
-      iex> Memory.set(url)
-      %Expander.Url{short_url: "http://stpz.co/haddafios"}
-      iex> Memory.all()
-      %{"http://stpz.co/haddafios" => %Expander.Url{long_url: nil, short_url: "http://stpz.co/haddafios"}}
-  """
-  def all() do
-    GenServer.call(__MODULE__, :all)
+  def set(state, key, value) do
+    GenServer.call(state, {:set, key, value})
   end
 
-  @doc ~S"""
-  Delete all stored urls.
-
-  ## Examples
-      iex> url = Expander.Url.new(short_url: "http://stpz.co/haddafios")
-      %Expander.Url{short_url: "http://stpz.co/haddafios"}
-      iex> Memory.set(url)
-      %Expander.Url{short_url: "http://stpz.co/haddafios"}
-      iex> Memory.delete_all()
-      :ok
-      iex> Memory.all() |> Enum.count()
-      0
-  """
-  def delete_all() do
-    GenServer.call(__MODULE__, :delete_all)
+  def delete_all(state) do
+    GenServer.call(state, :delete_all)
   end
-
 
   # Callbacks
-
   def init(_args) do
     {:ok, %{}}
   end
 
-  def handle_call(:all, _from, urls) do
-    {:reply, urls, urls}
+  def handle_call({:get, key}, _from, state) do
+    {:reply, {:ok, Map.get(state, key)}, state}
   end
 
-  def handle_call(:delete_all, _from, _urls) do
+
+  def handle_call({:set, key, value}, _from, state) do
+    {:reply, {:ok, "OK"} , Map.put(state, key, value)}
+  end
+
+  def handle_call(:all, _from, state) do
+    {:reply, state, state}
+  end
+
+  def handle_call(:delete_all, _from, state) do
     {:reply, :ok, %{}}
   end
 
-  def handle_call({:set, url}, _from, urls) do
-    # Check if the URL is already in the set, if so update it, otherwise add it.
-    {_, urls} =  Map.get_and_update(urls, url.short_url, fn current_value ->
-      {current_value, url}
-    end)
+  # @doc ~S"""
+  # Push a new url into the list.
 
-    {:reply, url, urls}
-  end
+  # The key used to fetch the url is the short_url
 
-  def handle_call({:get, id}, _from, urls) do
-    url = Map.get(urls, id)
-    {:reply, url, urls}
-  end
+  # ## Examples
+  #     iex> url = Expander.Url.new() |> Expander.Url.short_url("http://stpz.co/haddafios")
+  #     %Expander.Url{short_url: "http://stpz.co/haddafios"}
+  #     iex> Memory.set(url)
+  #     iex> Memory.all()
+  #     %{"http://stpz.co/haddafios" => %Expander.Url{long_url: nil, short_url: "http://stpz.co/haddafios"}}
+  # """
+
+
+
+
+  # @doc ~S"""
+  # List all stored urls.
+
+  # ## Examples
+  #     iex> url = Expander.Url.new() |> Expander.Url.short_url("http://stpz.co/haddafios")
+  #     %Expander.Url{short_url: "http://stpz.co/haddafios"}
+  #     iex> Memory.set(url)
+  #     %Expander.Url{short_url: "http://stpz.co/haddafios"}
+  #     iex> Memory.all()
+  #     %{"http://stpz.co/haddafios" => %Expander.Url{long_url: nil, short_url: "http://stpz.co/haddafios"}}
+  # """
+  # def all() do
+  #   GenServer.call(__MODULE__, :all)
+  # end
+
+  # @doc ~S"""
+  # Delete all stored urls.
+
+  # ## Examples
+  #     iex> url = Expander.Url.new(short_url: "http://stpz.co/haddafios")
+  #     %Expander.Url{short_url: "http://stpz.co/haddafios"}
+  #     iex> Memory.set(url)
+  #     %Expander.Url{short_url: "http://stpz.co/haddafios"}
+  #     iex> Memory.delete_all()
+  #     :ok
+  #     iex> Memory.all() |> Enum.count()
+  #     0
+  # """
+
+
+
+  # # Callbacks
+
+
+
+
+
+
+
+
+
+  # def handle_call({:get, id}, _from, urls) do
+  #   url = Map.get(urls, id)
+  #   {:reply, url, urls}
+  # end
 end

@@ -1,6 +1,8 @@
 defmodule Expander.Cache.Adapter.RedixTest do
   use ExUnit.Case, async: true
 
+  alias Expander.Url
+
   Application.put_env(
     :expander,
     Expander.Cache.Adapter.RedixTest.RedisCache,
@@ -13,6 +15,7 @@ defmodule Expander.Cache.Adapter.RedixTest do
   defmodule RedisCache do
     use Expander.Expand, otp_app: :expander, adapter: Expander.Cache.Adapter.Redix
   end
+
 
   setup_all do
     {:ok, pid} = RedisCache.start_adapter()
@@ -36,5 +39,15 @@ defmodule Expander.Cache.Adapter.RedixTest do
   test "set/2", %{state: state, conn: conn}   do
     assert {:ok, state} == Expander.Cache.Adapter.Redix.set(state, "key1", "value1")
     assert Redix.command(conn, ["GET", "key1"]) == {:ok, "value1"}
+  end
+
+  test "expand interface", %{conn: conn} do
+    #
+    # Manually create url and set in in Redis Directly, then expand should fetch this URL from redis and return it
+    #
+    url = Url.new(short_url: "http://stpz.co/haddafios", long_url: "https://itunes.apple.com/us/app/haddaf-hdaf/id872585884")
+    Redix.command(conn, ["SET", Url.cache_key(url), Poison.encode!(url)])
+
+    assert {:ok, url} == RedisCache.expand(url)
   end
 end

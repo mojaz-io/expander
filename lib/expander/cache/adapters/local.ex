@@ -1,21 +1,18 @@
 defmodule Expander.Cache.Adapter.Local do
   use Expander.Cache.Adapter
+  alias Expander.Cache.Store
 
-  def get(%Expander.Url{} = url, config) do
-    driver = storage_driver(config)
-    case driver.get(url.short_url) do
-      %Expander.Url{} = expanded -> {:ok, {expanded, config}}
-      _ -> {:error, :url_not_found}
+  def setup(_) do
+    Expander.Cache.Adapters.Local.Storage.Memory.start_link()
+  end
+
+  @spec get(Expander.Cache.Store.t, Expander.key)
+    :: {:ok, Expander.Cache.Store.t, {:ok, Expander.value} | :error} | Expander.exception
+  def get(store = %Store{state: conn}, key) do
+    case  Redix.command(conn, ["GET", key]) do
+      {:ok, nil}       -> {:ok, store, :error}
+      {:ok, value}     -> {:ok, store, {:ok, value}}
+      {:error, reason} -> {:raise, Exception, [reason: reason]}
     end
-  end
-
-  def set(%Expander.Url{} = url, config) do
-    driver = storage_driver(config)
-    expanded = driver.set(url)
-    {:ok, {expanded, config}}
-  end
-
-  defp storage_driver(config) do
-    config[:storage_driver] || Expander.Cache.Adapters.Local.Storage.Memory
   end
 end
