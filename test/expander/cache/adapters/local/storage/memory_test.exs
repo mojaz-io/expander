@@ -3,7 +3,7 @@ defmodule Expander.Cache.Adapters.Local.Storage.MemoryTest do
 
   alias Expander.Cache.Adapters.Local.Storage.Memory
 
-  #doctest Expander.Cache.Adapters.Local.Storage.Memory, import: true
+  doctest Expander.Cache.Adapters.Local.Storage.Memory, import: true
 
   setup context do
     if context[:no_setup] do

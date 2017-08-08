@@ -26,46 +26,70 @@ defmodule Expander.Cache.Adapters.Local.Storage.Memory do
 
 
   @doc ~S"""
-  List all stored urls.
+  List all values in cache.
 
   ## Examples
-      iex> url = Expander.Url.new() |> Expander.Url.short_url("http://stpz.co/haddafios")
-      %Expander.Url{short_url: "http://stpz.co/haddafios"}
-      iex> Memory.set(url)
-      %Expander.Url{short_url: "http://stpz.co/haddafios"}
-      iex> Memory.all()
-      %{"http://stpz.co/haddafios" => %Expander.Url{long_url: nil, short_url: "http://stpz.co/haddafios"}}
+      iex> {:ok, conn} = GenServer.start_link(Memory, [])
+      iex> Memory.set(conn, "moski", "doski")
+      {:ok, "OK"}
+      iex> Memory.all(conn)
+      %{"moski" => "doski"}
   """
   def all(state) do
     GenServer.call(state, :all)
   end
 
   @doc ~S"""
-  Get the url record given the short_url as an ID
+  Get a value from cache given the key.
 
   ## Examples
-      iex> url = Expander.Url.new() |> Expander.Url.short_url("http://stpz.co/haddafios")
-      %Expander.Url{short_url: "http://stpz.co/haddafios"}
-      iex> Memory.set(url)
-      iex> Memory.all() |> Enum.count()
+      iex> {:ok, conn} = GenServer.start_link(Memory, [])
+      iex>  Memory.set(conn, "moski", "doski")
+      iex> Memory.all(conn) |> Enum.count()
       1
-      iex> Memory.get("http://stpz.co/haddafios")
-      %Expander.Url{short_url: "http://stpz.co/haddafios"}
+      iex> Memory.get(conn, "moski")
+      {:ok, "doski"}
   """
   def get(state,key) do
     GenServer.call(state, {:get, key})
   end
 
+  @doc ~S"""
+  Set a key value in cache.
 
+  ## Examples
+      iex> {:ok, conn} = GenServer.start_link(Memory, [])
+      iex>  Memory.set(conn, "key1", "val1")
+      iex>  Memory.set(conn, "key2", "val2")
+      iex>  Memory.set(conn, "key3", "val3")
+      iex> Memory.all(conn) |> Enum.count()
+      3
+  """
   def set(state, key, value) do
     GenServer.call(state, {:set, key, value})
   end
 
+  @doc ~S"""
+  Delete all keys from cache.
+
+  ## Examples
+      iex> {:ok, conn} = GenServer.start_link(Memory, [])
+      iex>  Memory.set(conn, "key1", "val1")
+      iex>  Memory.set(conn, "key2", "val2")
+      iex>  Memory.set(conn, "key3", "val3")
+      iex> Memory.all(conn) |> Enum.count()
+      3
+      iex> Memory.delete_all(conn)
+      iex> Memory.all(conn) |> Enum.count()
+      0
+  """
   def delete_all(state) do
     GenServer.call(state, :delete_all)
   end
 
+  #
   # Callbacks
+  #
   def init(_args) do
     {:ok, %{}}
   end
@@ -83,69 +107,8 @@ defmodule Expander.Cache.Adapters.Local.Storage.Memory do
     {:reply, state, state}
   end
 
-  def handle_call(:delete_all, _from, state) do
+  def handle_call(:delete_all, _from, _) do
     {:reply, :ok, %{}}
   end
 
-  # @doc ~S"""
-  # Push a new url into the list.
-
-  # The key used to fetch the url is the short_url
-
-  # ## Examples
-  #     iex> url = Expander.Url.new() |> Expander.Url.short_url("http://stpz.co/haddafios")
-  #     %Expander.Url{short_url: "http://stpz.co/haddafios"}
-  #     iex> Memory.set(url)
-  #     iex> Memory.all()
-  #     %{"http://stpz.co/haddafios" => %Expander.Url{long_url: nil, short_url: "http://stpz.co/haddafios"}}
-  # """
-
-
-
-
-  # @doc ~S"""
-  # List all stored urls.
-
-  # ## Examples
-  #     iex> url = Expander.Url.new() |> Expander.Url.short_url("http://stpz.co/haddafios")
-  #     %Expander.Url{short_url: "http://stpz.co/haddafios"}
-  #     iex> Memory.set(url)
-  #     %Expander.Url{short_url: "http://stpz.co/haddafios"}
-  #     iex> Memory.all()
-  #     %{"http://stpz.co/haddafios" => %Expander.Url{long_url: nil, short_url: "http://stpz.co/haddafios"}}
-  # """
-  # def all() do
-  #   GenServer.call(__MODULE__, :all)
-  # end
-
-  # @doc ~S"""
-  # Delete all stored urls.
-
-  # ## Examples
-  #     iex> url = Expander.Url.new(short_url: "http://stpz.co/haddafios")
-  #     %Expander.Url{short_url: "http://stpz.co/haddafios"}
-  #     iex> Memory.set(url)
-  #     %Expander.Url{short_url: "http://stpz.co/haddafios"}
-  #     iex> Memory.delete_all()
-  #     :ok
-  #     iex> Memory.all() |> Enum.count()
-  #     0
-  # """
-
-
-
-  # # Callbacks
-
-
-
-
-
-
-
-
-
-  # def handle_call({:get, id}, _from, urls) do
-  #   url = Map.get(urls, id)
-  #   {:reply, url, urls}
-  # end
 end
