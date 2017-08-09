@@ -10,6 +10,11 @@ defmodule Expander.Mixfile do
      elixirc_paths: elixirc_paths(Mix.env),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+
+     # Hex
+     description: description(),
+     package: package(),
+
      deps: deps(),
      aliases: aliases(),
      test_coverage: [tool: ExCoveralls]]
@@ -55,6 +60,18 @@ defmodule Expander.Mixfile do
 
   defp aliases do
     ["test.ci": &test_ci/1]
+  end
+
+  defp description do
+    """
+    A library to expand/unshorten urls with unified cache store.
+    """
+  end
+
+  defp package do
+    [maintainers: ["Moski Doski"],
+     licenses: ["MIT"],
+     links: %{"GitHub" => "https://github.com/mojaz-io/expander"}]
   end
 
   defp test_ci(args) do
