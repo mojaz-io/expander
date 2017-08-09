@@ -31,8 +31,23 @@
 [status]: https://travis-ci.org/mojaz-io/expander
 [coverage]: https://coveralls.io/github/mojaz-io/expander
 
+[master]: https://github.com/mojaz-io/expander/tree/master
+[master-status]: https://img.shields.io/travis/mojaz-io/expander/master.svg?maxAge=86400&style=flat-square
+[master-coverage]: https://img.shields.io/coveralls/mojaz-io/expander/master.svg?maxAge=86400&style=flat-square
 
+[development]: https://github.com/mojaz-io/expander/tree/development
+[development-status]: https://img.shields.io/travis/mojaz-io/expander/development.svg?maxAge=86400&style=flat-square
+[development-coverage]: https://img.shields.io/coveralls/mojaz-io/expander/development.svg?maxAge=86400&style=flat-square
 
+## Cache Adapters
+
+Expander supports the following cache adapters. Below is the list of the adapters currently included:
+
+Provider   | Expander adapter                | Dependancy
+:----------| :-------------------------------| :----------
+Local      | Expander.Cache.Adapter.Local    |
+Redis      | Expander.Cache.Adapter.Redix    | {:redix, ">= 0.0.0"}
+Memcache   | Expander.Cache.Adapter.Memcache | {:memcachex, ">= 0.0.0"}
 
 
 ## Installation
