@@ -17,7 +17,13 @@ defmodule Expander.Mixfile do
 
      deps: deps(),
      aliases: aliases(),
-     test_coverage: [tool: ExCoveralls]]
+     test_coverage: [tool: ExCoveralls],
+
+     # Docs
+     name: "Expander",
+     docs: [source_ref: "v#{@version}", main: "Expander",
+            canonical: "http://hexdocs.pm/expander",
+            source_url: "https://github.com/mojaz-io/expander"]]
   end
 
   # Configuration for the OTP application
