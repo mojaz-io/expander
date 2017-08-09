@@ -13,6 +13,8 @@
 [deps]: https://beta.hexfaktor.org/github/mojaz-io/expander
 [deps-badge]: https://beta.hexfaktor.org/badge/all/github/mojaz-io/expander.svg?branch=master&style=flat-square
 
+[![Version][hex-version-badge]][hex]
+[![Downloads][hex-downloads-badge]][hex]
 [![License][hex-license-badge]][hex]
 [![Dependencies][deps-badge]][deps]
 [![Documentation][docs-badge]][docs]
