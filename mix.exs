@@ -11,7 +11,8 @@ defmodule Expander.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps(),
-     aliases: aliases(),]
+     aliases: aliases(),
+     test_coverage: [tool: ExCoveralls]]
   end
 
   # Configuration for the OTP application
@@ -42,7 +43,7 @@ defmodule Expander.Mixfile do
     #{:poolboy, "~> 1.5"},
     {:poison, "~> 3.1"},
     {:ex_doc, "~> 0.15", only: :docs},
-    {:excoveralls, "~> 0.6",  only: [:docs]},
+    {:excoveralls, "~> 0.6",  only: [:docs, :test]},
     {:inch_ex,     "~> 0.5",  only: [:docs]},
   ]
 
