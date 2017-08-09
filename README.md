@@ -2,9 +2,13 @@
 
 > **A library to expand/unshorten urls with unified cache store.**
 
+[hex]: https://hex.pm/packages/expander
+[hex-version-badge]:   https://img.shields.io/hexpm/v/expander.svg?maxAge=86400&style=flat-square
+[hex-downloads-badge]: https://img.shields.io/hexpm/dt/expander.svg?maxAge=86400&style=flat-square
+[hex-license-badge]:   https://img.shields.io/badge/license-MIT-7D26CD.svg?maxAge=86400&style=flat-square
+
 [docs]: https://inch-ci.org/github/mojaz-io/expander
 [docs-badge]: https://inch-ci.org/github/mojaz-io/expander.svg?branch=master&style=flat-square
-[hex-license-badge]:   https://img.shields.io/badge/license-MIT-7D26CD.svg?maxAge=86400&style=flat-square
 
 [deps]: https://beta.hexfaktor.org/github/mojaz-io/expander
 [deps-badge]: https://beta.hexfaktor.org/badge/all/github/mojaz-io/expander.svg?branch=master&style=flat-square
