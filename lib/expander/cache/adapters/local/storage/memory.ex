@@ -17,14 +17,6 @@ defmodule Expander.Cache.Adapters.Local.Storage.Memory do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
-  @doc """
-  Stops the server
-  """
-  def stop() do
-    GenServer.stop(__MODULE__)
-  end
-
-
   @doc ~S"""
   List all values in cache.
 
