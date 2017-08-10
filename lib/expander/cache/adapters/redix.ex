@@ -50,7 +50,6 @@ if Code.ensure_loaded?(Redix) do
       case  Redix.command(conn, ["GET", key]) do
         {:ok, nil}       -> {:ok, store, :error}
         {:ok, value}     -> {:ok, store, {:ok, value}}
-        {:error, reason} -> {:raise, Exception, [reason: reason]}
       end
     end
 
@@ -60,7 +59,6 @@ if Code.ensure_loaded?(Redix) do
       command = ["SET", key, value]
       case  Redix.command(conn, command) do
         {:ok, "OK"}      -> {:ok, store}
-        {:error, reason} -> {:raise, Exception, [reason: reason]}
       end
     end
   end

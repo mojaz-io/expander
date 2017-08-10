@@ -18,10 +18,6 @@ if Code.ensure_loaded?(Memcache) do
     use Expander.Cache.Adapter
     alias Expander.Cache.Store
 
-    defmodule Exception do
-      defexception [:message]
-    end
-
     @doc """
     Connects to memcache to store data using provided `config`.
 
@@ -43,7 +39,6 @@ if Code.ensure_loaded?(Memcache) do
       case  Memcache.get(conn, key) do
         {:error, "Key not found"} -> {:ok, store, :error}
         {:ok, value}     -> {:ok, store, {:ok, value}}
-        {:error, reason} -> {:raise, Exception, [reason: reason]}
       end
     end
 
@@ -52,7 +47,6 @@ if Code.ensure_loaded?(Memcache) do
     def set(store = %Store{state: conn}, key, value) do
       case  Memcache.set(conn, key, value) do
         {:ok}      -> {:ok, store}
-        {:error, reason} -> {:raise, Exception, [reason: reason]}
       end
     end
   end
