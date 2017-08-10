@@ -49,7 +49,7 @@ defmodule Expander.UrlTest do
     expects the url to be a valid url.
     Instead it got:
       `"invalid-url"`.
-    """, fn -> new(short_url: "invalid-url") end
+    """, fn -> new(long_url: "invalid-url") end
   end
 
 end

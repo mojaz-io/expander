@@ -73,22 +73,40 @@ defmodule Expander.Expand do
       :ok = @adapter.validate_config(@config)
 
 
-      #
-      # Start the adapter and add it the cache supervisor tree.
-      #
+      @doc """
+      Start the adapter and add it the cache supervisor tree.
+      If the supervisor has the current adapter, then do nothing
+      otherwise delegate to the supervisor to add the adapter.
+
+      Calling expand/1 will trigger this method. Meaning, there is no need to call it manually.
+
+      ## Example
+
+        defmodule RedisCache do
+          use Expander.Expand, otp_app: :expander, adapter: Expander.Cache.Adapter.Redix
+        end
+
+        iex> {:ok, pid} = RedisCache.start_adapter()
+      """
       def start_adapter do
-        case Expander.Cache.Supervisor.find_adapter(__MODULE__) do
-          nil -> Expander.Cache.Supervisor.add_adapter(@adapter, @config, [name: __MODULE__])
-          _ -> IO.puts "Adapter is already running"
+        unless Expander.Cache.Supervisor.find_adapter(__MODULE__) do
+          Expander.Cache.Supervisor.add_adapter(@adapter, @config, [name: __MODULE__])
         end
       end
 
 
+      @doc """
+      The public inteface to expanding. Any Module, that use the Expand will be injected with this expand/1
+      func which internally, starts the adapter and calls the Expander.Expand.expand/1
+      """
       def expand(url) do
         start_adapter()
         Expander.Expand.expand(url, __MODULE__)
       end
 
+      @doc """
+      Calls expand but raise an exception in case of an error.
+      """
       def expand!(url) do
         case expand(url) do
           {:ok, result} -> result
@@ -96,33 +114,68 @@ defmodule Expander.Expand do
         end
       end
 
+      @doc """
+      Get the current defined adapter.
+
+      ## Example
+
+        defmodule RedisCache do
+          use Expander.Expand, otp_app: :expander, adapter: Expander.Cache.Adapter.Redix
+        end
+
+        iex> RedisCache.adapter
+        Expander.Cache.Adapter.Redix
+      """
       def adapter do
         @adapter
       end
 
+      @doc """
+      Get the current configuration for the adapter.
+
+      ## Example
+
+        Application.put_env(
+          :expander,
+          RedisCache,
+          conn: [
+            host: System.get_env("REDIX_TEST_HOST") || "localhost",
+            port: String.to_integer(System.get_env("REDIX_TEST_PORT") || "6379")]
+        )
+
+        defmodule RedisCache do
+          use Expander.Expand, otp_app: :expander, adapter: Expander.Cache.Adapter.Redix
+        end
+
+        iex> RedisCache.cache
+        [conn: [host: "localhost", port: 6379]]
+      """
       def config do
         @config
       end
 
-      ##
+      @doc """
+      Genserver api to get the URL from cache. It delegates to the correct adapter
+      """
       def get(url)  do
         GenServer.call(__MODULE__, {:get, url})
       end
 
-      ##
+      @doc """
+      Genserver api to set the URL in cache. It delegates to the correct adapter
+      """
       def set(url)  do
         GenServer.call(__MODULE__, {:set, url})
       end
 
-      ##
+      @doc """
+      Genserver api to check if the URL in cache. It delegates to the correct adapter
+      """
       def in_cache(url) do
         GenServer.call(__MODULE__, {:in_cache, url})
       end
     end
   end
-
-
-
 
   def expand(%Expander.Url{short_url: nil}, _server) do
     {:error, :short_url_not_set}

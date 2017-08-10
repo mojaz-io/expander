@@ -113,18 +113,22 @@ defmodule Expander.Url do
   end
 
   def long_url(_url, long_url) do
-    raise ArgumentError, message:
-    """
-    long_url/2 expects the short_url URL to be a strings.
-    Instead it got:
-      short_url: `#{inspect long_url}`.
-    """
+    raise_invalid_url(long_url)
   end
 
+  @doc """
+  Return the key used for caching the URL struct. We are using the short_url as key for now.
+
+  ## Examples
+      iex> url = new(short_url: "http://stpz.co/haddafios", long_url: "https://itunes.apple.com/us/app/haddaf-hdaf/id872585884")
+      iex> cache_key(url)
+      "http://stpz.co/haddafios"
+  """
   def cache_key(url) do
     url.short_url
   end
 
+  @doc false
   defp raise_invalid_url(url) do
     raise ArgumentError, message: """
     expects the url to be a valid url.
@@ -133,6 +137,7 @@ defmodule Expander.Url do
     """
   end
 
+  @doc false
   defp validate_protocol("http://" <> rest = url) do
     {url, rest}
   end
@@ -141,6 +146,7 @@ defmodule Expander.Url do
   end
   defp validate_protocol(_), do: :error
 
+  @doc false
   defp validate_host(:error), do: :error
   defp validate_host({url, rest}) do
     [domain | uri] = String.split(rest, "/")
@@ -150,6 +156,7 @@ defmodule Expander.Url do
     end
   end
 
+  @doc false
   defp validate_uri(:error), do: :error
   defp validate_uri({url, uri}) do
     if uri == URI.encode(uri) |> URI.decode do
