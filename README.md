@@ -90,12 +90,14 @@ Sample.Url.generate("http://stpz.co/haddafios") |> Sample.Expander.expand
       [{:expander, "~> 0.0.1"}]
     end
     ```
+
 2. (Optional - only for Elixir < 1.4) Ensure expander is started before your application:
 
     ```elixir
     def application do
       [applications: [:expander]]
     end
+
 
 3. (Optional) If you are using `Expander.Cache.Adapter.Redix` or `Expander.Cache.Adapter.Memcache`, you also need to add these dependencies to your deps and list of applications:
 
@@ -110,7 +112,8 @@ Sample.Url.generate("http://stpz.co/haddafios") |> Sample.Expander.expand
        {:redix, ">= 0.0.0"}]
     end
 
-OR
+    ##  OR
+
     # You only need to do this if you are using Elixir < 1.4
     def application do
       [applications: [:expander, :memcachex]]
@@ -120,6 +123,7 @@ OR
       [{:expander, "~> 0.0.1"},
        {:memcachex, ">= 0.0.0"}]
     end
+
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
