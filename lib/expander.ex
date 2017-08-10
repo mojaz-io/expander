@@ -1,7 +1,6 @@
 defmodule Expander do
-  @moduledoc """
-  Documentation for Expander.
-  """
+  @moduledoc File.read!("README.md") |> String.replace("# Expander\n\n", "", global: false)
+
 
   @version "0.0.1"
 
