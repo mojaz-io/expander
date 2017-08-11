@@ -3,12 +3,8 @@ defmodule Expander.Cache.Server do
 
   alias Expander.Url
 
-  def start_link do
-    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
-  end
-
-  def start_link(adapter, store, server) do
-    GenServer.start_link(__MODULE__, {adapter, store}, server)
+  def start_link(adapter, config, server) do
+    GenServer.start_link(__MODULE__, {adapter, config}, server)
   end
 
   def init({adapter, config}) do

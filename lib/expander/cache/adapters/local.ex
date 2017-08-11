@@ -33,7 +33,6 @@ defmodule Expander.Cache.Adapter.Local do
     case  Memory.get(conn, key) do
       {:ok, nil}       -> {:ok, store, :error}
       {:ok, value}     -> {:ok, store, {:ok, value}}
-      {:error, reason} -> {:raise, Exception, [reason: reason]}
     end
   end
 
@@ -42,7 +41,6 @@ defmodule Expander.Cache.Adapter.Local do
   def set(store = %Store{state: conn}, key, value) do
     case  Memory.set(conn, key, value) do
       {:ok, "OK"}      -> {:ok, store}
-      {:error, reason} -> {:raise, Exception, [reason: reason]}
     end
   end
 end
