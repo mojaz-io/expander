@@ -18,7 +18,6 @@ defmodule Expander.Cache.Server do
     case adapter.get(store, Url.cache_key(url)) do
       {:ok, store, :error} -> {:reply, {:ok, false}, store}
       {:ok, store, {:ok, value}}  -> {:reply, {:ok, true, Poison.decode!(value, as: %Expander.Url{})}, store}
-      {:raise, type, args} -> {:reply, {:raise, type, deserialize_error(args, store)}, store}
     end
   end
 
@@ -26,7 +25,6 @@ defmodule Expander.Cache.Server do
     case adapter.get(store, Url.cache_key(url)) do
       {:ok, store, :error} -> {:reply, nil, store}
       {:ok, store, {:ok, value}}  -> {:reply, {:ok, Poison.decode!(value, as: %Expander.Url{})}, store}
-      {:raise, type, args} -> {:reply, {:raise, type, deserialize_error(args, store)}, store}
     end
   end
 
@@ -34,17 +32,6 @@ defmodule Expander.Cache.Server do
     value = Poison.encode!(url)
     case adapter.set(store, Url.cache_key(url), value) do
       {:ok, store}         -> {:reply, :ok, store}
-      {:raise, type, args} -> {:reply, {:raise, type, deserialize_error(args, store)}, store}
-    end
-  end
-
-  ##
-  ## @TODO: Refactor.
-  ##
-  defp deserialize_error(opts, _store) do
-    case Keyword.fetch(opts, :key) do
-      :error -> opts
-      {:ok, _key} -> opts
     end
   end
 end
