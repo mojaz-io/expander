@@ -47,13 +47,14 @@
 
 ## Cache Adapters
 
-Expander supports the following cache adapters. Below is the list of the adapters currently included:
+Expander supports the following cache adapters:
 
 Provider   | Expander adapter                | Dependancy
 :----------| :-------------------------------| :----------
 Local      | Expander.Cache.Adapter.Local    |
 Redis      | Expander.Cache.Adapter.Redix    | {:redix, ">= 0.0.0"}
 Memcache   | Expander.Cache.Adapter.Memcache | {:memcachex, ">= 0.0.0"}
+ETS        | Expander.Cache.Adapter.ETS      |
 
 ## Getting Started
 
