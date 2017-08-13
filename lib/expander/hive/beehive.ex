@@ -46,6 +46,6 @@ defmodule Expander.Hive.Beehive do
     end
   end
 
-  defp filter_url({:ok, url = %Url{}}), do: {:ok, url}
-  defp filter_url({:error, url = %Url{}}), do: {:error, url}
+  defp filter_url({:ok, url = %Url{}}), do: {:ok, url, %{expanded: Url.expanded(url)}}
+  defp filter_url({:error, url = %Url{}}), do: {:error, url, %{expanded: Url.expanded(url)}}
 end

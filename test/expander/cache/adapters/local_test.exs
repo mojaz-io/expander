@@ -38,6 +38,6 @@ defmodule Expander.Cache.Adapter.LocalTest do
     url = Url.new(short_url: "http://stpz.co/haddafios", long_url: "https://itunes.apple.com/us/app/haddaf-hdaf/id872585884")
     Memory.set(conn, Url.cache_key(url), Poison.encode!(url))
 
-    assert {:ok, url} == LocalCache.expand(url)
+    assert {:ok, url, %{expanded: true, source: :cache}} == LocalCache.expand(url)
   end
 end

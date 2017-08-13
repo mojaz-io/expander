@@ -37,6 +37,6 @@ defmodule Expander.Cache.Adapter.MemcacheTest do
 
     Memcache.set(conn, Expander.Url.cache_key(url), Poison.encode!(url))
 
-    assert {:ok, url} == Cache.expand(url)
+    assert {:ok, url, %{expanded: true, source: :cache}} == Cache.expand(url)
   end
 end

@@ -19,7 +19,10 @@ defmodule Expander.Helpers.HttpAgent do
   def agent(url), do: do_agent(URI.parse(url))
 
   #
-  defp do_agent(%URI{host: "fb.me"}), do: @safari
-  defp do_agent(_), do: @expander
+  defp do_agent(%URI{host: "fb.me"}), do: safari_agent()
+  defp do_agent(_), do: expander_agent()
 
+  @doc false
+  def safari_agent, do: @safari
+  def expander_agent, do: @expander
 end

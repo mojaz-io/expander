@@ -38,19 +38,15 @@ defmodule Expander.Expand do
   Once configured you can use your expander like this:
 
       # in an IEx console
-      iex> url = new() |> short_url("http://amzn.to/2w9oM5d")
-      %Expander.Url{long_url: nil, short_url: "http://amzn.to/2w9oM5d"}
-      iex> Expander.expand(url)
-      {:ok, {%Expander.Url{long_url: "http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/create_dashboard.html?sc_channel=sm&sc_campaign=Docs&sc_publisher=TWITTER&sc_country=Global&sc_geo=GLOBAL&sc_outcome=[GLOBAL]&sc_content=Docs&linkId=40350988", short_url: "http://amzn.to/2w9oM5d"}, []}}
 
-  You can also pass an extra config argument to `expand/2` that will be merged
-  with your Expander's config:
+      defmodule RedisCache do
+        use Expander.Expand, otp_app: :expander, adapter: Expander.Cache.Adapter.Redix
+      end
 
-      # in an IEx console
-      iex> url = new() |> short_url("http://amzn.to/2w9oM5d")
-      %Expander.Url{long_url: nil, short_url: "http://amzn.to/2w9oM5d"}
-      iex> Expander.expand(url, tls: 100)
-      {%Expander.Url{long_url: "http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/create_dashboard.html?sc_channel=sm&sc_campaign=Docs&sc_publisher=TWITTER&sc_country=Global&sc_geo=GLOBAL&sc_outcome=[GLOBAL]&sc_content=Docs&linkId=40350988", short_url: "http://amzn.to/2w9oM5d"}, []}}
+      iex> url = new() |> short_url("http://tr.im/hacker")
+      %Expander.Url{long_url: nil, short_url: "http://tr.im/hacker"}
+      iex> RedisCache.expand(url)
+      {:ok, %Expander.Url{long_url: "https://news.ycombinator.com/?utm_source=tr.im&utm_medium=no_referer&utm_campaign=tr.im%2Fhacker&utm_content=direct_input", short_url: "http://tr.im/hacker"}, %{expanded: true, source: :network}}
   """
 
   alias Expander.Helpers.Http
@@ -182,21 +178,24 @@ defmodule Expander.Expand do
   end
 
   def expand(%Expander.Url{} = url, server) do
-    #config = Expander.Expand.parse_runtime_config(config)
-    #:ok = adapter.validate_config(config)
-
+    #
+    # Check if in cache
+    #   -> true  -> return the cached version
+    #   -> false -> Network expand
+    #               isExpanded
+    #                 true  -> Save in cache & return value
+    #                 false -> Return the value and skip cache.
     #
     with {:ok, false} <- server.in_cache(url),
-         {:ok, result} <- Expander.Hive.Beehive.expand(url),
+         {:ok, result, %{expanded: true}} <- Expander.Hive.Beehive.expand(url),
          :ok <- server.set(result)
     do
-          {:ok, result}
+          {:ok, result, %{expanded: true, source: :network}}
     else
       # URL already in cache.
-      {:ok, true, cached_result} -> {:ok, cached_result}
-      something_went_wrong ->
-        IO.inspect something_went_wrong
-        :error
+      {:ok, true, cached_result} -> {:ok, cached_result, %{expanded: true, source: :cache}}
+      {:ok, result, %{expanded: false}} ->{:ok, result, %{expanded: false, source: :network}}
+      _ -> :error
     end
   end
 

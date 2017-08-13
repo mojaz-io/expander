@@ -38,6 +38,6 @@ defmodule Expander.Cache.Adapter.ETSTest do
     #
     url = Url.new(short_url: "http://stpz.co/haddafios", long_url: "https://itunes.apple.com/us/app/haddaf-hdaf/id872585884")
     :ets.insert(table, {Url.cache_key(url),  Poison.encode!(url)})
-    assert {:ok, url} == ETSCache.expand(url)
+    assert {:ok, url, %{expanded: true, source: :cache}} == ETSCache.expand(url)
   end
 end

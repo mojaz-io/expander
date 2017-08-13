@@ -48,6 +48,6 @@ defmodule Expander.Cache.Adapter.RedixTest do
     url = Url.new(short_url: "http://stpz.co/haddafios", long_url: "https://itunes.apple.com/us/app/haddaf-hdaf/id872585884")
     Redix.command(conn, ["SET", Url.cache_key(url), Poison.encode!(url)])
 
-    assert {:ok, url} == RedisCache.expand(url)
+    assert {:ok, url, %{expanded: true, source: :cache}} == RedisCache.expand(url)
   end
 end
