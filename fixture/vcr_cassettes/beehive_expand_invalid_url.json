@@ -1,0 +1,27 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "User-Agent": "expander v0.0.1"
+      },
+      "method": "head",
+      "options": [],
+      "request_body": "",
+      "url": "http://tiny.cc/c9t1m"
+    },
+    "response": {
+      "body": null,
+      "headers": {
+        "Server": "nginx",
+        "Date": "Sun, 13 Aug 2017 19:35:07 GMT",
+        "Content-Type": "text/html",
+        "Connection": "keep-alive",
+        "X-Powered-By": "PHP/5.3.28",
+        "Set-Cookie": "main_session=a%3A4%3A%7Bs%3A10%3A%22session_id%22%3Bs%3A32%3A%2219b7004faf1e7ad6e13652ae77ab315e%22%3Bs%3A10%3A%22ip_address%22%3Bs%3A14%3A%22217.165.23.220%22%3Bs%3A10%3A%22user_agent%22%3Bs%3A15%3A%22expander+v0.0.1%22%3Bs%3A13%3A%22last_activity%22%3Bi%3A1502652907%3B%7D908b7b3a25e34dd187141632c6738f20; expires=Mon, 14-Aug-2017 19:35:07 GMT; path=/; domain=.tiny.cc"
+      },
+      "status_code": 404,
+      "type": "ok"
+    }
+  }
+]

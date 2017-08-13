@@ -19,7 +19,7 @@ defmodule Expander.Hive.Bee do
   def handle_call({url, :expand}, _from, state) do
     expand_state = case Http.expand(url.short_url) do
       {:ok, long_url} -> {:ok, url |> Url.long_url(long_url)}
-      _ -> {:error, url}
+      {:error, reason} -> {:error, url, %{reason: reason}}
     end
 
     {:reply, expand_state, state}

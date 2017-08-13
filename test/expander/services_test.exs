@@ -54,7 +54,6 @@ defmodule ExVCR.Adapter.ServicesTest do
     end
   end
 
-  @tag :wip
   test "tiny.cc" do
     use_cassette "tinycc" do
       short_url = "http://tiny.cc/6vi3my"
@@ -62,7 +61,6 @@ defmodule ExVCR.Adapter.ServicesTest do
     end
   end
 
-  @tag :wip
   test "tr.im" do
     use_cassette "trim" do
       short_url = "http://tr.im/hacker"
