@@ -11,8 +11,8 @@ defmodule Expander.Application do
     # Define workers and child supervisors to be supervised
     children = [
       #worker(Expander.Cache.Adapters.Local.Storage.Memory, []),
-      supervisor(Expander.Cache.Supervisor, [])
-      # worker(Expander.Fetcher, []),
+      supervisor(Expander.Cache.Supervisor, []),
+      supervisor(Expander.Hive.Beehive, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

@@ -52,4 +52,23 @@ defmodule Expander.UrlTest do
     """, fn -> new(long_url: "invalid-url") end
   end
 
+  test "cache_key/1" do
+    url = new() |> short_url("http://stpz.co/haddafios")
+    assert cache_key(url) == "http://stpz.co/haddafios"
+  end
+
+  test "expanded/1" do
+    url = new() |> short_url("http://stpz.co/haddafios")
+    assert expanded(url) == false
+
+    url = new() |> long_url("http://stpz.co/haddafios")
+    assert expanded(url) == false
+
+    url = new() |> long_url("http://google.com") |> short_url("http://google.com")
+    assert expanded(url) == false
+
+    url = new() |> long_url("https://itunes.apple.com/us/app/haddaf-hdaf/id872585884") |> short_url("http://stpz.co/haddafios")
+    assert expanded(url) == true
+  end
+
 end

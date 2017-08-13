@@ -2,7 +2,7 @@ defmodule Expander.Helpers.Http do
 
   defp is_special_case(url) do
     url in [
-      "https://www.facebook.com/unsupportedbrowser"  # Facebook redirects HTTPotion to the unsupported browser page
+      #"https://www.facebook.com/unsupportedbrowser"  # Facebook redirects HTTPotion to the unsupported browser page
     ]
   end
 
@@ -14,16 +14,37 @@ defmodule Expander.Helpers.Http do
     end
   end
 
+
   @spec expand(String.t) :: String.t
   def expand(short) do
     try do
-      case HTTPotion.head(short) do
-        %HTTPotion.Response{headers: headers, status_code: redirect} when 301 <= redirect and redirect <= 302 ->
+      case HTTPotion.head(short, headers: ["User-Agent": Expander.Helpers.HttpAgent.agent(short)]) do
+
+        #
+        # Some websites like tiny.cc return with HTTP status 303 [SEE OTHER] https://httpstatuses.com/303
+        #
+        # if the header is:
+        #   301 Moved Permanently
+        #   302 Found
+        #   303 See Other
+        #
+        # then deal with the redirection.
+        #
+        %HTTPotion.Response{headers: headers, status_code: redirect} when 301 <= redirect and redirect <= 303 ->
           handle_redirect(short, headers)
-        # Assumes all shortening services respond to HEAD and that target URLs may not.
-        # In that case expansion is done.
+
+        #
+        # Some services disable the HEAD request and return 405 Method Not Allowed
+        #
         %HTTPotion.Response{headers: _headers, status_code: 405} -> {:ok, short}
         %HTTPotion.Response{headers: _headers, status_code: success} when 200 <= success and success < 300 -> {:ok, short}
+
+        #
+        # Just for debugging
+        # TODO: remove
+        %HTTPotion.Response{status_code: redirect} ->
+          IO.inspect redirect
+         :error
       end
     rescue
       _ -> :error

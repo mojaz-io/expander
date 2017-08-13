@@ -128,6 +128,10 @@ defmodule Expander.Url do
     url.short_url
   end
 
+  def expanded(%Expander.Url{short_url: nil}), do: false
+  def expanded(%Expander.Url{long_url: nil}), do: false
+  def expanded(url=%Expander.Url{}), do: url.short_url != url.long_url
+
   @doc false
   defp raise_invalid_url(url) do
     raise ArgumentError, message: """

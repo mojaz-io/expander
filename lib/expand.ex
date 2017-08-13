@@ -187,7 +187,7 @@ defmodule Expander.Expand do
 
     #
     with {:ok, false} <- server.in_cache(url),
-         {:ok, result} <- expand_remote(url),
+         {:ok, result} <- Expander.Hive.Beehive.expand(url),
          :ok <- server.set(result)
     do
           {:ok, result}
