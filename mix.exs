@@ -31,7 +31,7 @@ defmodule Expander.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger, :httpotion],
+    [extra_applications: [:logger],
      mod: {Expander.Application, []}]
   end
 
@@ -50,7 +50,7 @@ defmodule Expander.Mixfile do
   defp deps, do: tools() ++ backends()
 
   defp tools, do: [
-    {:httpotion, "~> 3.0.2"},
+    {:httpoison, "~> 0.12"},
     {:poolboy, "~> 1.5"},
     {:poison, "~> 3.1"},
     {:ex_doc, "~> 0.15", only: :docs},
