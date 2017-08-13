@@ -1,0 +1,60 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "User-Agent": "expander v0.0.1"
+      },
+      "method": "head",
+      "options": [],
+      "request_body": "",
+      "url": "http://stpz.co/2vvdA5x"
+    },
+    "response": {
+      "body": null,
+      "headers": {
+        "Server": "nginx",
+        "Date": "Sun, 13 Aug 2017 18:19:31 GMT",
+        "Content-Type": "text/html; charset=utf-8",
+        "Content-Length": "132",
+        "Connection": "keep-alive",
+        "Cache-Control": "private, max-age=90",
+        "Location": "http://www.skydivedubai.ae/tandem.html#tandem"
+      },
+      "status_code": 301,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "User-Agent": "expander v0.0.1"
+      },
+      "method": "head",
+      "options": [],
+      "request_body": "",
+      "url": "http://www.skydivedubai.ae/tandem.html#tandem"
+    },
+    "response": {
+      "body": null,
+      "headers": {
+        "Server": "nginx",
+        "Date": "Sun, 13 Aug 2017 18:19:31 GMT",
+        "Content-Type": "text/html; charset=UTF-8",
+        "Connection": "keep-alive",
+        "Keep-Alive": "timeout=20",
+        "Link": "<http://www.skydivedubai.ae/wp-json/>; rel=\"https://api.w.org/\"",
+        "X-Cacheable": "SHORT",
+        "Vary": "Accept-Encoding,Cookie",
+        "Cache-Control": "max-age=600, must-revalidate",
+        "X-Cache": "HIT: 5",
+        "X-Pass-Why": "",
+        "X-Cache-Group": "normal",
+        "X-Type": "default"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]

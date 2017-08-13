@@ -1,0 +1,61 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "User-Agent": "expander v0.0.1"
+      },
+      "method": "head",
+      "options": [],
+      "request_body": "",
+      "url": "http://tiny.cc/6vi3my"
+    },
+    "response": {
+      "body": null,
+      "headers": {
+        "Server": "nginx",
+        "Date": "Sun, 13 Aug 2017 18:40:06 GMT",
+        "Content-Type": "text/html",
+        "Connection": "keep-alive",
+        "X-Powered-By": "PHP/5.3.28",
+        "Set-Cookie": "main_session=a%3A4%3A%7Bs%3A10%3A%22session_id%22%3Bs%3A32%3A%22444a2ef51c0aabe62379e5bc1912f96e%22%3Bs%3A10%3A%22ip_address%22%3Bs%3A14%3A%22217.165.23.220%22%3Bs%3A10%3A%22user_agent%22%3Bs%3A15%3A%22expander+v0.0.1%22%3Bs%3A13%3A%22last_activity%22%3Bi%3A1502649606%3B%7Dd094ba86bdf4a330f233b35e868b4317; expires=Mon, 14-Aug-2017 18:40:06 GMT; path=/; domain=.tiny.cc",
+        "X-Robots-Tag": "nofollow, noindex",
+        "Location": "http://www.skydivedubai.ae/tandem.html#tandem"
+      },
+      "status_code": 303,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "User-Agent": "expander v0.0.1"
+      },
+      "method": "head",
+      "options": [],
+      "request_body": "",
+      "url": "http://www.skydivedubai.ae/tandem.html#tandem"
+    },
+    "response": {
+      "body": null,
+      "headers": {
+        "Server": "nginx",
+        "Date": "Sun, 13 Aug 2017 18:40:13 GMT",
+        "Content-Type": "text/html; charset=UTF-8",
+        "Connection": "keep-alive",
+        "Keep-Alive": "timeout=20",
+        "Link": "<http://www.skydivedubai.ae/wp-json/>; rel=\"https://api.w.org/\"",
+        "X-Cacheable": "SHORT",
+        "Vary": "Accept-Encoding,Cookie",
+        "Cache-Control": "max-age=600, must-revalidate",
+        "X-Cache": "HIT: 2",
+        "X-Pass-Why": "",
+        "X-Cache-Group": "normal",
+        "X-Type": "default"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]
