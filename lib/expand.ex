@@ -49,7 +49,6 @@ defmodule Expander.Expand do
       {:ok, %Expander.Url{long_url: "https://news.ycombinator.com/?utm_source=tr.im&utm_medium=no_referer&utm_campaign=tr.im%2Fhacker&utm_content=direct_input", short_url: "http://tr.im/hacker"}, %{expanded: true, source: :network}}
   """
 
-  alias Expander.Helpers.Http
   alias Expander.ExpandError
 
 
@@ -198,19 +197,6 @@ defmodule Expander.Expand do
       _ -> :error
     end
   end
-
-  def expand_remote(url) do
-    pid = Task.async(__MODULE__, :do_expand_remote, [url])
-    Task.await(pid, :infinity)
-  end
-
-  def do_expand_remote(url) do
-    case Http.expand(url.short_url) do
-      {:ok, long_url} -> {:ok, url |> Expander.Url.long_url(long_url)}
-      _ -> :error
-    end
-  end
-
 
   @doc """
   Parses the OTP configuration at compile time.
