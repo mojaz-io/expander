@@ -1,0 +1,20 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "User-Agent": "expander v0.0.1"
+      },
+      "method": "head",
+      "options": [],
+      "request_body": "",
+      "url": "http://invalid.domain"
+    },
+    "response": {
+      "body": "nxdomain",
+      "headers": [],
+      "status_code": null,
+      "type": "error"
+    }
+  }
+]

@@ -14,11 +14,11 @@
       "body": null,
       "headers": {
         "Server": "nginx",
-        "Date": "Sun, 13 Aug 2017 18:40:06 GMT",
+        "Date": "Mon, 14 Aug 2017 03:50:50 GMT",
         "Content-Type": "text/html",
         "Connection": "keep-alive",
         "X-Powered-By": "PHP/5.3.28",
-        "Set-Cookie": "main_session=a%3A4%3A%7Bs%3A10%3A%22session_id%22%3Bs%3A32%3A%22444a2ef51c0aabe62379e5bc1912f96e%22%3Bs%3A10%3A%22ip_address%22%3Bs%3A14%3A%22217.165.23.220%22%3Bs%3A10%3A%22user_agent%22%3Bs%3A15%3A%22expander+v0.0.1%22%3Bs%3A13%3A%22last_activity%22%3Bi%3A1502649606%3B%7Dd094ba86bdf4a330f233b35e868b4317; expires=Mon, 14-Aug-2017 18:40:06 GMT; path=/; domain=.tiny.cc",
+        "Set-Cookie": "main_session=a%3A4%3A%7Bs%3A10%3A%22session_id%22%3Bs%3A32%3A%22e5e45f67192ae641cfe358a4f4dda7a3%22%3Bs%3A10%3A%22ip_address%22%3Bs%3A12%3A%225.30.195.201%22%3Bs%3A10%3A%22user_agent%22%3Bs%3A15%3A%22expander+v0.0.1%22%3Bs%3A13%3A%22last_activity%22%3Bi%3A1502682650%3B%7D497f8b32cf26c3c8d24b37908269a54e; expires=Tue, 15-Aug-2017 03:50:50 GMT; path=/; domain=.tiny.cc",
         "X-Robots-Tag": "nofollow, noindex",
         "Location": "http://www.skydivedubai.ae/tandem.html#tandem"
       },
@@ -41,7 +41,7 @@
       "body": null,
       "headers": {
         "Server": "nginx",
-        "Date": "Sun, 13 Aug 2017 18:40:13 GMT",
+        "Date": "Mon, 14 Aug 2017 03:50:57 GMT",
         "Content-Type": "text/html; charset=UTF-8",
         "Connection": "keep-alive",
         "Keep-Alive": "timeout=20",
@@ -49,7 +49,7 @@
         "X-Cacheable": "SHORT",
         "Vary": "Accept-Encoding,Cookie",
         "Cache-Control": "max-age=600, must-revalidate",
-        "X-Cache": "HIT: 2",
+        "X-Cache": "HIT: 4",
         "X-Pass-Why": "",
         "X-Cache-Group": "normal",
         "X-Type": "default"

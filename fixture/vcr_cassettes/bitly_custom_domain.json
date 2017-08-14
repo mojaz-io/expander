@@ -14,7 +14,7 @@
       "body": null,
       "headers": {
         "Server": "nginx",
-        "Date": "Sun, 13 Aug 2017 18:19:31 GMT",
+        "Date": "Mon, 14 Aug 2017 03:50:58 GMT",
         "Content-Type": "text/html; charset=utf-8",
         "Content-Length": "132",
         "Connection": "keep-alive",
@@ -40,7 +40,7 @@
       "body": null,
       "headers": {
         "Server": "nginx",
-        "Date": "Sun, 13 Aug 2017 18:19:31 GMT",
+        "Date": "Mon, 14 Aug 2017 03:50:58 GMT",
         "Content-Type": "text/html; charset=UTF-8",
         "Connection": "keep-alive",
         "Keep-Alive": "timeout=20",
@@ -48,7 +48,7 @@
         "X-Cacheable": "SHORT",
         "Vary": "Accept-Encoding,Cookie",
         "Cache-Control": "max-age=600, must-revalidate",
-        "X-Cache": "HIT: 5",
+        "X-Cache": "HIT: 6",
         "X-Pass-Why": "",
         "X-Cache-Group": "normal",
         "X-Type": "default"

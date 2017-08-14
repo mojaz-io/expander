@@ -1,6 +1,6 @@
 defmodule Expander.Hive.BeehiveTest do
   use ExUnit.Case, async: true
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
+  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney, clear_mock: true
 
   alias Expander.Url
   alias Expander.Hive.Beehive
@@ -28,7 +28,6 @@ defmodule Expander.Hive.BeehiveTest do
     end
   end
 
-  @tag :wip
   test "expand/1 url not expanded" do
     use_cassette "beehive_expand_url_not_expanded" do
         url = "https://news.ycombinator.com"
@@ -40,9 +39,19 @@ defmodule Expander.Hive.BeehiveTest do
   @tag :wip
   test "expand/1 invalid url" do
     use_cassette "beehive_expand_invalid_url" do
-        url = "http://tiny.cc/c9t1m"
+        url = "http://tiny.cc/moski"
         assert {:error, %Expander.Url{long_url: nil, short_url: url}, %{expanded: false, reason: "#{url} returned with states_code: 404"}}
                == Url.new(short_url: url) |> Beehive.expand
+    end
+  end
+
+  @tag :wip
+  test "expand/1 invalid domain" do
+    use_cassette "beehive_expand_invalid_domain" do
+      url = "http://invalid.domain"
+      assert {:error, %Expander.Url{long_url: nil, short_url: url}, %{expanded: false, reason: "#{url} returned with error: nxdomain"}}
+            == Url.new(short_url: url) |> Beehive.expand
+
     end
   end
 end

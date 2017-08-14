@@ -13,14 +13,14 @@
     "response": {
       "body": null,
       "headers": {
-        "Date": "Sun, 13 Aug 2017 18:30:18 GMT",
+        "Date": "Mon, 14 Aug 2017 03:50:56 GMT",
         "Content-Type": "text/html",
         "Connection": "keep-alive",
-        "Set-Cookie": "__cfduid=dcb7604bccf57cdc94c48d8f8e08cdce41502649018; expires=Mon, 13-Aug-18 18:30:18 GMT; path=/; domain=.is.gd; HttpOnly",
+        "Set-Cookie": "__cfduid=d52f297d36b1616406dfcaee665e1c0121502682656; expires=Tue, 14-Aug-18 03:50:56 GMT; path=/; domain=.is.gd; HttpOnly",
         "X-Powered-By": "PHP/5.5.9-1ubuntu4.16",
         "Location": "http://www.skydivedubai.ae/tandem.html#tandem",
         "Server": "cloudflare-nginx",
-        "CF-RAY": "38ddbeae9db97a3b-DXB"
+        "CF-RAY": "38e0f3ea3d1b6a01-LHR"
       },
       "status_code": 301,
       "type": "ok"
@@ -41,7 +41,7 @@
       "body": null,
       "headers": {
         "Server": "nginx",
-        "Date": "Sun, 13 Aug 2017 18:30:19 GMT",
+        "Date": "Mon, 14 Aug 2017 03:50:56 GMT",
         "Content-Type": "text/html; charset=UTF-8",
         "Connection": "keep-alive",
         "Keep-Alive": "timeout=20",
@@ -49,7 +49,7 @@
         "X-Cacheable": "SHORT",
         "Vary": "Accept-Encoding,Cookie",
         "Cache-Control": "max-age=600, must-revalidate",
-        "X-Cache": "HIT: 6",
+        "X-Cache": "HIT: 3",
         "X-Pass-Why": "",
         "X-Cache-Group": "normal",
         "X-Type": "default"

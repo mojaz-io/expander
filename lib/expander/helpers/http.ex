@@ -36,9 +36,13 @@ defmodule Expander.Helpers.Http do
         # Default fallback
         #
         {:ok, %HTTPoison.Response{status_code: redirect}} -> {:error, "#{short} returned with states_code: #{redirect}"}
+
+        {:error, %HTTPoison.Error{reason: reason}} -> {:error, "#{short} returned with error: #{reason}"}
       end
     rescue
-      x -> {:error, "#{short} raised: #{x}"}
+      x ->
+        IO.inspect x
+        {:error, "#{short} raised an unexpected error"}
     end
   end
 end

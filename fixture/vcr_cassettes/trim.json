@@ -14,7 +14,7 @@
       "body": null,
       "headers": {
         "Server": "nginx",
-        "Date": "Sun, 13 Aug 2017 18:42:33 GMT",
+        "Date": "Mon, 14 Aug 2017 03:51:00 GMT",
         "Content-Type": "text/html",
         "Content-Length": "178",
         "Location": "https://tr.im/hacker",
@@ -42,7 +42,7 @@
         "Content-Type": "text/html; charset=UTF-8",
         "X-Powered-By": "PHP/5.6.28-1+deb.sury.org~xenial+1",
         "Cache-Control": "no-cache",
-        "Date": "Sun, 13 Aug 2017 18:42:34 GMT",
+        "Date": "Mon, 14 Aug 2017 03:51:00 GMT",
         "Location": "https://news.ycombinator.com/?utm_source=tr.im&utm_medium=no_referer&utm_campaign=tr.im%2Fhacker&utm_content=direct_input",
         "Via": "1.1 google",
         "Transfer-Encoding": "chunked",
@@ -66,16 +66,16 @@
     "response": {
       "body": null,
       "headers": {
-        "Date": "Sun, 13 Aug 2017 18:42:35 GMT",
+        "Date": "Mon, 14 Aug 2017 03:51:01 GMT",
         "Content-Type": "text/html; charset=utf-8",
         "Connection": "keep-alive",
-        "Set-Cookie": "__cfduid=dc15d5105182caac23fe9be8c8bf4003c1502649754; expires=Mon, 13-Aug-18 18:42:34 GMT; path=/; domain=.ycombinator.com; HttpOnly",
+        "Set-Cookie": "__cfduid=d4032394f48de12d07d5595a2ce4e22fa1502682660; expires=Tue, 14-Aug-18 03:51:00 GMT; path=/; domain=.ycombinator.com; HttpOnly",
         "Vary": "Accept-Encoding",
         "Cache-Control": "private",
         "X-Frame-Options": "DENY",
         "Strict-Transport-Security": "max-age=31556900; includeSubDomains",
         "Server": "cloudflare-nginx",
-        "CF-RAY": "38ddd0a58a3b7a35-DXB"
+        "CF-RAY": "38e0f4067930353c-LHR"
       },
       "status_code": 200,
       "type": "ok"

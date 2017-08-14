@@ -19,6 +19,10 @@ defmodule Expander.Mixfile do
      aliases: aliases(),
      test_coverage: [tool: ExCoveralls],
 
+     preferred_cli_env: [
+      vcr: :test, "vcr.delete": :test, "vcr.check": :test, "vcr.show": :test
+     ],
+
      # Docs
      name: "Expander",
      docs: [source_ref: "v#{@version}", main: "Expander",
