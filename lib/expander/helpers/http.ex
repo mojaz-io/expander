@@ -10,39 +10,32 @@ defmodule Expander.Helpers.Http do
 
   @spec expand(String.t) :: String.t
   def expand(short) do
-    try do
-      case HTTPoison.head(short, ["User-Agent": Expander.Helpers.HttpAgent.agent(short)], []) do
+    case HTTPoison.head(short, ["User-Agent": Expander.Helpers.HttpAgent.agent(short)], []) do
+      #
+      # Some websites like tiny.cc return with HTTP status 303 [SEE OTHER] https://httpstatuses.com/303
+      #
+      # if the header is:
+      #   301 Moved Permanently
+      #   302 Found
+      #   303 See Other
+      #
+      # then deal with the redirection.
+      #
+      {:ok, %HTTPoison.Response{headers: headers, status_code: redirect}} when 301 <= redirect and redirect <= 303 ->
+        headers |> get_header("location") |> expand
 
-        #
-        # Some websites like tiny.cc return with HTTP status 303 [SEE OTHER] https://httpstatuses.com/303
-        #
-        # if the header is:
-        #   301 Moved Permanently
-        #   302 Found
-        #   303 See Other
-        #
-        # then deal with the redirection.
-        #
-        {:ok, %HTTPoison.Response{headers: headers, status_code: redirect}} when 301 <= redirect and redirect <= 303 ->
-          headers |> get_header("location") |> expand
+      #
+      # Some services disable the HEAD request and return 405 Method Not Allowed
+      #
+      {:ok, %HTTPoison.Response{headers: _headers, status_code: 405}} -> {:ok, short}
+      {:ok, %HTTPoison.Response{headers: _headers, status_code: success}} when 200 <= success and success < 300 -> {:ok, short}
 
-        #
-        # Some services disable the HEAD request and return 405 Method Not Allowed
-        #
-        {:ok, %HTTPoison.Response{headers: _headers, status_code: 405}} -> {:ok, short}
-        {:ok, %HTTPoison.Response{headers: _headers, status_code: success}} when 200 <= success and success < 300 -> {:ok, short}
+      #
+      # Default fallback
+      #
+      {:ok, %HTTPoison.Response{status_code: redirect}} -> {:error, "#{short} returned with states_code: #{redirect}"}
 
-        #
-        # Default fallback
-        #
-        {:ok, %HTTPoison.Response{status_code: redirect}} -> {:error, "#{short} returned with states_code: #{redirect}"}
-
-        {:error, %HTTPoison.Error{reason: reason}} -> {:error, "#{short} returned with error: #{reason}"}
-      end
-    rescue
-      x ->
-        IO.inspect x
-        {:error, "#{short} raised an unexpected error"}
+      {:error, %HTTPoison.Error{reason: reason}} -> {:error, "#{short} returned with error: #{reason}"}
     end
   end
 end
