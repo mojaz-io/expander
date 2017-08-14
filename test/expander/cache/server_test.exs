@@ -1,11 +1,14 @@
 defmodule Expander.Cache.ServerTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case#, async: true
 
   alias Expander.Cache.Server
 
   setup do
-    {:ok, pid} = Server.start_link(Expander.Cache.Adapter.Local, [], [])
+    {:ok, pid} = Server.start_link(Expander.Cache.Adapter.Redix, [], [])
     store = :sys.get_state(pid)
+
+    %Expander.Cache.Store{state: conn} =  store
+    Redix.command!(conn, ["FLUSHDB"])
 
     valid_url = Expander.Url.new(
       short_url: "http://stpz.co/haddafios",

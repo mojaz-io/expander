@@ -1,5 +1,5 @@
 defmodule Expander.Cache.Adapters.Local.Storage.MemoryTest do
-  use ExUnit.Case
+  use ExUnit.Case#, async: true
 
   alias Expander.Cache.Adapters.Local.Storage.Memory
 
