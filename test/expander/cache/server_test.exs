@@ -4,7 +4,7 @@ defmodule Expander.Cache.ServerTest do
   alias Expander.Cache.Server
 
   setup do
-    {:ok, pid} = Server.start_link(Expander.Cache.Adapter.Local, [], [name: Expander.Cache.Server])
+    {:ok, pid} = Server.start_link(Expander.Cache.Adapter.Local, [], [])
     store = :sys.get_state(pid)
 
     valid_url = Expander.Url.new(
